@@ -23,4 +23,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Tell lazy to scan the clean plugins directory
-require("lazy").setup("user.plugins")
+require("lazy").setup({
+  spec = {
+    { import = "user.plugins" },
+    { import = "user.plugins.languages" }, -- <-- Tells lazy to scan your language profiles!
+  },
+})
