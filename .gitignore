@@ -1,0 +1,33 @@
+# ====================================================================
+# Neovim dotfiles .gitignore profile for clean Windows synchronization
+# ====================================================================
+
+# 1. Ignore Neovim package downloads and local runtime states
+.data/
+.cache/
+.state/
+
+# 2. Ignore lazy.nvim local cache layers and strict locks
+# (Excluding the lock file lets you grab the newest versions across fresh machines)
+lazy-lock.json
+
+# 3. Ignore active log traces and runtime histories
+*.log
+shada/
+undo/
+
+# 4. Ignore Treesitter compiled binary libraries
+# (These will automatically be compiled cleanly by your destination platform engine)
+parser/
+
+# 5. Eliminate Windows operating system clutter
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# 6. Eliminate macOS specific system visibility files (for safety across platforms)
+.DS_Store
+.AppleDouble
+.LSOverride
+
