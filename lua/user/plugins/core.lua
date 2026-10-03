@@ -1,4 +1,15 @@
 return {
+  -- 0. High-Speed, Modern Icon Provider (Replaces nvim-web-devicons seamlessly)
+  {
+    "echasnovski/mini.icons",
+    version = false,
+    config = function()
+      require("mini.icons").setup()
+      -- CRITICAL: Mocks the old devicons system so Neo-tree and Telescope use it instantly
+      MiniIcons.mock_nvim_web_devicons()
+    end,
+  },
+
   -- 1. Modern Onedark Colorscheme
   {
     "navarasu/onedark.nvim",
@@ -28,17 +39,50 @@ return {
     end,
   },
 
-  -- 3. Sidebar File Tree (Neo-tree)
+  -- 3. Sidebar File Tree (Neo-tree) - Optimized for speed and sleek icons
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- Automatically handles icon setup
+      "echasnovski/mini.icons", -- Swapped out the old provider
       "MunifTanjim/nui.nvim",
     },
     config = function()
       vim.keymap.set("n", "<leader>e", ":Neotree toggle left<CR>", { desc = "Toggle File Explorer" })
+
+      require("neo-tree").setup({
+        -- Makes directory tree rendering snappy inside giant codebases like spring-core
+        git = {
+          enable = true,
+          non_git_clean = false,
+        },
+        default_component_configs = {
+          indent = {
+            with_markers = true,
+            indent_marker = "│",
+            last_indent_marker = "└",
+          },
+          icon = {
+            with_text = true,
+            default = "  ",
+          },
+          git_status = {
+            symbols = {
+              -- Minimalist, blazing-fast Git symbols instead of heavy text blocks
+              added     = "•",
+              modified  = "•",
+              deleted   = "×",
+              renamed   = "→",
+              untracked = "?",
+              ignored   = "◌",
+              unstaged  = "▪",
+              staged    = "✓",
+              conflict  = "",
+            }
+          }
+        }
+      })
     end,
   },
 
@@ -47,7 +91,7 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons" -- Explicitly tied so Telescope uses your icons too!
+      "echasnovski/mini.icons" -- Hooked up to the new high-performance system
     },
     config = function()
       -- Configure Telescope to explicitly enable icons inside search views
