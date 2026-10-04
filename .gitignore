@@ -31,3 +31,5 @@ $RECYCLE.BIN/
 .AppleDouble
 .LSOverride
 
+*.zip
+Documentation.md
