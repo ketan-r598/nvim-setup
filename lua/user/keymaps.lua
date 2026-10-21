@@ -75,6 +75,13 @@ vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").resume
 local term_buf = nil
 local term_win = nil
 
+-- True only if the terminal buffer exists AND its shell is still running
+local function term_alive(buf)
+    if not (buf and vim.api.nvim_buf_is_valid(buf)) then return false end
+    local job = vim.b[buf].terminal_job_id
+    return job ~= nil and vim.fn.jobwait({ job }, 0)[1] == -1
+end
+
 local function toggle_terminal()
     if term_win and vim.api.nvim_win_is_valid(term_win) then
         vim.api.nvim_win_close(term_win, true)
@@ -85,9 +92,12 @@ local function toggle_terminal()
     vim.cmd([[botright 15split]])
     term_win = vim.api.nvim_get_current_win()
 
-    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+    if term_alive(term_buf) then
         vim.api.nvim_win_set_buf(term_win, term_buf)
     else
+        if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+            vim.api.nvim_buf_delete(term_buf, { force = true })
+        end
         vim.cmd([[terminal]])
         term_buf = vim.api.nvim_get_current_buf()
 
