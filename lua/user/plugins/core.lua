@@ -120,6 +120,20 @@ return {
     -- 5. Git signs in the margin
     {
         "lewis6991/gitsigns.nvim",
-        opts = {},
+        opts = {
+            -- Runs for each buffer that Gitsigns attaches to (files in a Git repo)
+            on_attach = function(bufnr)
+                local gs = require("gitsigns")
+                local function map(lhs, rhs, desc)
+                    vim.keymap.set("n", lhs, rhs, { buffer = bufnr, desc = desc })
+                end
+                map("]h", function() gs.nav_hunk("next") end, "Next git hunk")
+                map("[h", function() gs.nav_hunk("prev") end, "Previous git hunk")
+                map("<leader>hp", gs.preview_hunk, "Preview git hunk")
+                map("<leader>hs", gs.stage_hunk, "Stage git hunk")
+                map("<leader>hr", gs.reset_hunk, "Reset git hunk")
+                map("<leader>hb", gs.blame_line, "Blame line")
+            end,
+        },
     },
 }
