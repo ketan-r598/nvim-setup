@@ -35,6 +35,13 @@ return {
 
             -- Modern Fix: Tells Airline to use Neovim's native Diagnostic API instead of old CoC
             vim.g.airline_section_warning = '%{airline#util#wrap(airline#extensions#nvimlsp#get_warning(),0)}'
+            -- Show the Git branch from Gitsigns (no extra Git plugin needed)
+            vim.cmd([[
+        function! AirlineGitsignsHead() abort
+          return get(b:, 'gitsigns_head', '')
+        endfunction
+      ]])
+            vim.g["airline#extensions#branch#custom_head"] = "AirlineGitsignsHead"
             vim.g.airline_section_error = '%{airline#util#wrap(airline#extensions#nvimlsp#get_error(),0)}'
         end,
     },
