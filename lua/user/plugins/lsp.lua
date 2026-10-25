@@ -26,6 +26,11 @@ return {
             })
             vim.lsp.enable("lua_ls")
 
+            -- jdtls itself needs Java 25 to run; projects can still use Java 21
+            vim.lsp.config("jdtls", {
+                cmd_env = { JAVA_HOME = "C:/Program Files/Zulu/zulu-25" },
+            })
+
             local signs = { Error = "  ", Warn = "  ", Hint = "  ", Info = "  " }
             for type, icon in pairs(signs) do
                 local hl = "DiagnosticSign" .. type
