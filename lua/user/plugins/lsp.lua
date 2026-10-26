@@ -26,11 +26,14 @@ return {
             })
             vim.lsp.enable("lua_ls")
 
-            -- jdtls itself needs Java 25 to run; projects can still use Java 21
+            -- jdtls needs Java 25 to run; Spring Boot extensions added if available
+            local ok, spring_boot = pcall(require, "spring_boot")
             vim.lsp.config("jdtls", {
                 cmd_env = { JAVA_HOME = "C:/Program Files/Zulu/zulu-25" },
-            })
-
+                init_options = {
+                    bundles = ok and spring_boot.java_extensions() or {},
+                },
+            }) -- jdtls itself needs Java 25 to run; projects can still use Java 21
             local signs = { Error = "  ", Warn = "  ", Hint = "  ", Info = "  " }
             for type, icon in pairs(signs) do
                 local hl = "DiagnosticSign" .. type
