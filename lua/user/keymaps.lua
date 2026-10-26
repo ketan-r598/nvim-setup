@@ -130,3 +130,10 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to window below" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to window above" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+-- Workspace symbols (classes, methods) across the project; asks for the word first
+vim.keymap.set("n", "<leader>fw", function()
+    local word = vim.fn.input("Symbol: ")
+    if word ~= "" then
+        require("telescope.builtin").lsp_workspace_symbols({ query = word })
+    end
+end, { desc = "Find workspace symbols" })
