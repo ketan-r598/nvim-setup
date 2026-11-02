@@ -25,6 +25,7 @@ return {
                 },
             })
             vim.lsp.enable("lua_ls")
+            vim.lsp.enable("lemminx")
 
             -- jdtls needs Java 25 to run; Spring Boot extensions added if available
             local ok, spring_boot = pcall(require, "spring_boot")
