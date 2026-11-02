@@ -66,7 +66,13 @@ return {
         },
         config = function()
             local cmp = require("cmp")
-            cmp.setup({
+             cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        -- strip Windows carriage returns that jdtls puts in snippets
+                        vim.snippet.expand((args.body:gsub("\r", "")))
+                    end,
+                },
                 mapping = cmp.mapping.preset.insert({
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
