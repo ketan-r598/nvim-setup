@@ -142,5 +142,13 @@ return {
                 map("<leader>hb", gs.blame_line, "Blame line")
             end,
         },
+
+        -- 6. Auto-close brackets and quotes
+        {
+            "echasnovski/mini.pairs",
+            version = false,
+            event = "InsertEnter",
+            opts = {},
+        },
     },
 }
