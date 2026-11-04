@@ -143,12 +143,14 @@ return {
             end,
         },
 
-        -- 6. Auto-close brackets and quotes
-        {
-            "echasnovski/mini.pairs",
-            version = false,
-            event = "InsertEnter",
-            opts = {},
-        },
     },
+
+    -- 6. Auto-close brackets and quotes
+    {
+        "echasnovski/mini.pairs",
+        version = false,
+        event = "InsertEnter",
+        opts = {},
+    },
+
 }
